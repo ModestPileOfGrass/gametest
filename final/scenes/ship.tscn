@@ -1,0 +1,62 @@
+[gd_scene load_steps=10 format=3 uid="uid://cjj4nsedbqtrk"]
+
+[ext_resource type="Script" uid="uid://dlgg3yspqotou" path="res://scripts/ship/ship.gd" id="1_ship"]
+[ext_resource type="Script" uid="uid://dljncr5wvyqwd" path="res://scripts/hurtbox.gd" id="2_hurtbox"]
+[ext_resource type="Resource" uid="uid://ghc2imolismm" path="res://config/fighter.tres" id="3_stats"]
+[ext_resource type="PackedScene" uid="uid://d1pb8d581rfcw" path="res://scenes/projectile.tscn" id="4_projectile"]
+[ext_resource type="Script" uid="uid://b4xm0tgjxcxfs" path="res://scripts/effects/effect_manager.gd" id="5_effect_manager"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_collision"]
+size = Vector2(60, 50)
+
+[sub_resource type="Gradient" id="Gradient_explosion"]
+colors = PackedColorArray(1, 0.749, 0.141, 1, 0.937, 0.267, 0.267, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_explosion"]
+gradient = SubResource("Gradient_explosion")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_explosion"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 100.0
+initial_velocity_max = 200.0
+gravity = Vector3(0, 0, 0)
+scale_min = 3.0
+scale_max = 6.0
+color_ramp = SubResource("GradientTexture1D_explosion")
+
+[node name="Ship" type="CharacterBody2D" node_paths=PackedStringArray("hurtbox", "effect_manager", "explosion_particles")]
+collision_mask = 2
+script = ExtResource("1_ship")
+stats = ExtResource("3_stats")
+projectile_scene = ExtResource("4_projectile")
+hurtbox = NodePath("HurtBox")
+effect_manager = NodePath("EffectManager")
+explosion_particles = NodePath("ExplosionParticles")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_collision")
+
+[node name="HurtBox" type="Area2D" parent="." node_paths=PackedStringArray("target_entity")]
+collision_mask = 26
+script = ExtResource("2_hurtbox")
+target_entity = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+shape = SubResource("RectangleShape2D_collision")
+
+[node name="EffectManager" type="Node" parent="."]
+script = ExtResource("5_effect_manager")
+debug_output = true
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(0.2, 0.6, 1, 1)
+polygon = PackedVector2Array(0, -25, -8, -15, -8, -5, -25, 5, -25, 20, -10, 25, -10, 15, -5, 10, 5, 10, 10, 15, 10, 25, 25, 20, 25, 5, 8, -5, 8, -15)
+
+[node name="ExplosionParticles" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 30
+lifetime = 0.8
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_explosion")

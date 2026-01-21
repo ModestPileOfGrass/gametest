@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://d1pb8d581rfcw"]
+
+[ext_resource type="Script" uid="uid://ksfwipos8cpf" path="res://scripts/projectiles/base.gd" id="1_projectile"]
+[ext_resource type="Script" uid="uid://b3433juar5eex" path="res://scripts/hitbox.gd" id="2_hitbox"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hitbox"]
+size = Vector2(4, 10)
+
+[node name="Projectile" type="Node2D"]
+script = ExtResource("1_projectile")
+
+[node name="HitBox" type="Area2D" parent="." node_paths=PackedStringArray("owner_entity")]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("2_hitbox")
+owner_entity = NodePath("..")
+target_groups = Array[String](["enemies"])
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+shape = SubResource("RectangleShape2D_hitbox")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(1, 1, 0, 1)
+polygon = PackedVector2Array(-2, 5, -2, -2.5, 0, -5, 2, -2.5, 2, 5)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+rect = Rect2(-2, -5, 4, 10)

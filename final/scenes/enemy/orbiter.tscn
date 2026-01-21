@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://blp8f7g3r482y"]
+
+[ext_resource type="Script" uid="uid://yiam4h0pklih" path="res://scripts/enemy/enemy.gd" id="1_enemy"]
+[ext_resource type="Script" path="res://scripts/movement/circle.gd" id="2_movement"]
+[ext_resource type="Script" uid="uid://dljncr5wvyqwd" path="res://scripts/hurtbox.gd" id="3_hurtbox"]
+[ext_resource type="Script" uid="uid://b3433juar5eex" path="res://scripts/hitbox.gd" id="4_hitbox"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_physics"]
+size = Vector2(40, 40)
+
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("polygon")]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_enemy")
+polygon = NodePath("Polygon2D")
+
+[node name="HurtBox" type="Area2D" parent="." node_paths=PackedStringArray("target_entity")]
+collision_layer = 2
+collision_mask = 4
+script = ExtResource("3_hurtbox")
+target_entity = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+shape = SubResource("RectangleShape2D_physics")
+
+[node name="HitBox" type="Area2D" parent="." node_paths=PackedStringArray("owner_entity")]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("4_hitbox")
+owner_entity = NodePath("..")
+damage = 30
+target_groups = Array[String](["player"])
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+shape = SubResource("RectangleShape2D_physics")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_physics")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(0.858824, 0.439216, 0.858824, 1)
+polygon = PackedVector2Array(0, -18, 13, -13, 18, 0, 13, 13, 0, 18, -13, 13, -18, 0, -13, -13)
+
+[node name="Movement" type="Node" parent="."]
+script = ExtResource("2_movement")

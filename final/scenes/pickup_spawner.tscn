@@ -1,0 +1,43 @@
+[gd_scene load_steps=10 format=3 uid="uid://d1376mvun472t"]
+
+[ext_resource type="Script" uid="uid://cpkr6tnvavc8c" path="res://scripts/spawner/pickup_spawner.gd" id="1_spawner"]
+[ext_resource type="Script" uid="uid://nexmx6cx2le8" path="res://scripts/spawner/pickup_spawner_config.gd" id="2_02cwa"]
+[ext_resource type="Script" uid="uid://cupb78j4eroq4" path="res://scripts/spawner/pickup_type.gd" id="2_type"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/health.tscn" id="3_health"]
+[ext_resource type="PackedScene" uid="uid://dctk5fld38alc" path="res://scenes/pickups/shield.tscn" id="4_shield"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/invincibility.tscn" id="5_invincibility"]
+[ext_resource type="PackedScene" path="res://scenes/pickups/fire_rate.tscn" id="6_fire_rate"]
+[ext_resource type="PackedScene" uid="uid://bnnoi51i6yfdi" path="res://scenes/pickups/spread.tscn" id="7_spread"]
+
+[sub_resource type="Resource" id="Resource_smmk2"]
+script = ExtResource("2_02cwa")
+metadata/_custom_type_script = "uid://nexmx6cx2le8"
+
+[node name="PickupSpawner" type="Node"]
+script = ExtResource("1_spawner")
+config = SubResource("Resource_smmk2")
+debug_output = true
+
+[node name="HealthPickup" type="Node" parent="."]
+script = ExtResource("2_type")
+pickup_scene = ExtResource("3_health")
+spawn_weight = 3.0
+
+[node name="ShieldPickup" type="Node" parent="."]
+script = ExtResource("2_type")
+pickup_scene = ExtResource("4_shield")
+spawn_weight = 2.0
+
+[node name="InvincibilityPickup" type="Node" parent="."]
+script = ExtResource("2_type")
+pickup_scene = ExtResource("5_invincibility")
+spawn_weight = 0.5
+
+[node name="FireRatePickup" type="Node" parent="."]
+script = ExtResource("2_type")
+pickup_scene = ExtResource("6_fire_rate")
+spawn_weight = 1.5
+
+[node name="SpreadPickup" type="Node" parent="."]
+script = ExtResource("2_type")
+pickup_scene = ExtResource("7_spread")
