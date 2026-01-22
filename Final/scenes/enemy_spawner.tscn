@@ -1,0 +1,38 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/spawner/enemy_spawner.gd" id="1_spawner"]
+[ext_resource type="Script" path="res://scripts/spawner/enemy_type.gd" id="2_enemy_type"]
+[ext_resource type="PackedScene" path="res://scenes/enemy/straight.tscn" id="3_straight"]
+[ext_resource type="PackedScene" path="res://scenes/enemy/sine.tscn" id="4_sine"]
+[ext_resource type="PackedScene" path="res://scenes/enemy/zigzag.tscn" id="5_zigzag"]
+[ext_resource type="PackedScene" path="res://scenes/enemy/fast.tscn" id="6_fast"]
+[ext_resource type="PackedScene" path="res://scenes/enemy/bobber.tscn" id="7_bobber"]
+[ext_resource type="PackedScene" path="res://scenes/enemy/orbiter.tscn" id="8_orbiter"]
+
+[node name="EnemySpawner" type="Node"]
+script = ExtResource("1_spawner")
+debug_output = true
+
+[node name="StraightEnemy" type="Node" parent="."]
+script = ExtResource("2_enemy_type")
+enemy_scene = ExtResource("3_straight")
+
+[node name="SineEnemy" type="Node" parent="."]
+script = ExtResource("2_enemy_type")
+enemy_scene = ExtResource("4_sine")
+
+[node name="ZigZagEnemy" type="Node" parent="."]
+script = ExtResource("2_enemy_type")
+enemy_scene = ExtResource("5_zigzag")
+
+[node name="FastEnemy" type="Node" parent="."]
+script = ExtResource("2_enemy_type")
+enemy_scene = ExtResource("6_fast")
+
+[node name="BobberEnemy" type="Node" parent="."]
+script = ExtResource("2_enemy_type")
+enemy_scene = ExtResource("7_bobber")
+
+[node name="OrbiterEnemy" type="Node" parent="."]
+script = ExtResource("2_enemy_type")
+enemy_scene = ExtResource("8_orbiter")
